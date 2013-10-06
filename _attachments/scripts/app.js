@@ -13,6 +13,10 @@ myBirdList.config(function($routeProvider){
     .when("/", {
       controller: controllers.logon,
       templateUrl: 'partials/logon.html'
+    })
+    .when("/main",{
+      controller:controllers.main,
+      templateUrl:'partials/main.html'
     });
 });
 
