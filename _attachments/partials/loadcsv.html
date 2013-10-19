@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="jumbotron col-lg-6 col-lg-offset-4 text-center">
+        <h1>Import Master List</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="nav-header"><h1>Menu</h1></li>
+            <li class="active"><a href="#/create">Create World List</a></li>
+            <li class="active"><a href="">Menu Option 2</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-8 col-lg-offset-1 ">
+        <p>In order to initially populate your database with a list of the World's birds you can import a Clement's checklist in csv format. This file can be obtained from <a href="http://www.birds.cornell.edu/clementschecklist/download/" target="_blank">The Cornell Lab of Ornithology</a> Download and save the csv file to your computer and then browse for the file using the "choose file" button below</p>
+
+        <p><input type="file" id="fileinput" jc-file-picker/></p>
+
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" style="width: {{percentSuccess}}%">
+              <span class="sr-only">{{percentSuccess}}% Complete (success)</span>
+          </div>
+          <div class="progress-bar progress-bar-warning" style="width: {{percentWarning}}%">
+            <span class="sr-only">{{percentWarning}}% Complete (warning)</span>
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: {{percentError}}%">
+            <span class="sr-only">{{percentError}}% Complete (danger)</span>
+          </div>
+        </div>
+
+        <div class="panel panel-{{log.class}}" ng-repeat="log in logs">
+          <div class="panel-heading">
+              <a href="" ng-click="collapse(log.class)"> <h3 class="panel-title">{{log.type}}s <span class="badge">{{log.items.length}}</span></h3></a>
+          </div>
+            <div class="well" ng-show="panels.{{log.class}}">
+                <div class="panel panel-default" ng-repeat="eachItem in warningTypes">
+                    <div class="panel-heading" >
+                        <h4 class="panel-title">{{eachItem}}s</h4>
+                    </div>
+                    <div class="alert alert-warning" ng-repeat="item in filtered=(log.items | filter:{error:eachItem}) " ng-show=true>
+                        {{item.item.latin_name}} - {{item.item.english_name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul>
+            <li ng-repeat="bird in birdList" >{{bird.latin_name}}</li>
+        </ul>
+        <div>Number of birds={{numberOfSpecies}}</div>
+
+    </div>
+</div>

@@ -8,8 +8,8 @@ controllers.main=function($scope, $location, couchConnection){
     } else {
       $scope.year="";
     }
-
   };
-
-
 };
+
+
+myBirdList.controller(controllers);
