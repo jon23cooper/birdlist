@@ -17,7 +17,22 @@ myBirdList.factory('couchConnection', ['$http', function($http){
         return {"data":data, "status":status, "config":config};
       });
 
-    }
+    },
+
+    forceUpload: function(birdRecord){
+      //need to overwrite exisitng attributes with new properties
+      $http.get("http://localhost:5984/birdist/" + birdRecord.latin_name)
+      .then(function(data, status, headers, config){
+        for (var propertyName in birdRecord){
+            data[propertyName]=birdRecord[propertyName];
+        }
+        return $http.put("http://localhost:5984/birdlist/" + birdRecord.latin_name, data);
+      })
+      .error(function(data, status, headers, config){
+        return (status, data);
+      });
+
+    };
   }
 
 }]);

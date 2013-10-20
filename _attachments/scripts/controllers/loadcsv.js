@@ -1,7 +1,73 @@
+
+
 controllers.loadCSV=function($scope, couchConnection){
+
+  //log is an object with structure:
+  // {title:String, class: String, errorTypes:ArrayOfString, errorArray:ArrayOfErrorObjects}
+  //errorObject has Structure:
+  //{type:String, "birds":ArrayOfBirdObjects}
+  log=function(title, myClass){
+  this.title=title;
+  this.class=myClass;
+  this.errorTypes=[];
+  this.errorArray=[];
+  this.add=function(data){
+    console.log("Adding ", data.error," ", data.item);
+    if (!this.hasErrorType(data.error)){
+      this.errorTypes.push(data.error);
+      this.errorArray.push({"type":data.error, "birds":[data.item]});
+    } else {
+      var errorArrayItem=this.getErrorArrayItem(data.error);
+      console.log("errorArrayItem=", errorArrayItem);
+      if (errorArrayItem!==undefined){
+        console.log("Adding new bird: ", data.item)
+        errorArrayItem.birds.push(data.item);
+      } else {
+        console.log("Still need to add: ", data.item);
+      }
+    }
+  };
+
+  this.getErrorArrayItem=function(type){
+    var item;
+    angular.forEach(this.errorArray, function(value, key){
+      if (value.type===type){
+        item=value;
+      }
+    });
+    console.log("Returning ", item);
+    return item;
+  };
+
+  this.hasErrorType=function(type){
+    var found=false;
+    angular.forEach(this.errorTypes, function(value, key){
+      if (value===type){
+        found=true;
+      }
+    });
+    return found;
+  };
+
+  this.count=function(errorType){
+    console.log("counting ErrorTYpes that match:  ", errorType);
+    var total=0;
+    angular.forEach(this.errorTypes, function(value, key){
+      if (errorType===undefined || errorType===value){
+        total+=this.getErrorArrayItem(value).birds.length;
+      }
+    }, this);
+    return total;
+  };
+
+};
+
+
   $scope.name="create";
   $scope.progress=0;
   $scope.panels={};
+  $scope.warningLog=new log("Warning", "warning");
+  $scope.errorLog= new log("Error", "danger");
 
   $scope.$on('evtCSVFileChanged', function(){
     if ($scope.fileList.type!="text/csv"){
@@ -55,7 +121,7 @@ controllers.loadCSV=function($scope, couchConnection){
   };
 
  $scope.parse=function(){
-   $scope.logs=[{"class":"warning", "type":"Warning", "items":[]}, {"class":"danger", "type":"Error", "items":[]}];
+
    $scope.uploaded={"success":0, "warning":0, "error":0};
    $scope.currentRecord=1;
    //$scope.numberOfSpecies=$scope.lineArray.length;
@@ -115,21 +181,9 @@ controllers.loadCSV=function($scope, couchConnection){
    , function(warning){
      $scope.uploaded.warning++;
      $scope.percentWarning=$scope.uploaded.warning*100/$scope.numberOfSpecies;
-     addWarningType=function(myType){
-       console.log("checking warning types", myType, " against ", $scope.warningTypes );
-       if ($scope.warningTypes===undefined){
-         $scope.warningTypes={};
-         $scope.warningTypes[myType]=myType;
-       } else {
-         if (!$scope.warningTypes.hasOwnProperty(myType)) {
-           $scope.warningTypes[myType]=myType;
-         }
-       }
-     };
-     addWarningType(warning.data.error);
-     $scope.logs[0].items.push({"error":warning.data.error, "item":warning.config.data});
+     $scope.warningLog.add({"error":warning.data.error, "item":warning.config.data});
    }
-   );
+  );
 
 
  };
@@ -159,6 +213,28 @@ controllers.loadCSV=function($scope, couchConnection){
  $scope.isSpecies=function(bird){
    return bird.category==="species";
  };
+
+ $scope.close=function(myClass, myErrorType){
+   if ($scope.panels.hasOwnProperty(myClass + "_" + myErrorType)){
+     $scope.panels[myClass + "_" + myErrorType]=!$scope.panels[myClass + "_" + myErrorType];
+
+   } else {
+     $scope.panels[myClass + "_" + myErrorType]=true;
+   }
+   console.log("Panels collection=",$scope.panels);
+ };
+
+  $scope.forceUpload=function(data){
+    couchConnection.forceUpload(data)
+    .then(function(){
+      $scope.uploaded.success++;
+      $scope.percentSuccess=$scope.uploaded.success*100/$scope.numberOfSpecies;
+    },
+    function(){
+      //failed
+    })
+  };
+
 };
 
 
