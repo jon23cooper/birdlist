@@ -12,7 +12,6 @@ controllers.loadCSV=function($scope, couchConnection){
   this.errorTypes=[];
   this.errorArray=[];
   this.add=function(data){
-    console.log("Adding ", data.error," ", data.item);
     if (!this.hasErrorType(data.error)){
       this.errorTypes.push(data.error);
       this.errorArray.push({"type":data.error, "birds":[data.item]});
@@ -20,7 +19,6 @@ controllers.loadCSV=function($scope, couchConnection){
       var errorArrayItem=this.getErrorArrayItem(data.error);
       console.log("errorArrayItem=", errorArrayItem);
       if (errorArrayItem!==undefined){
-        console.log("Adding new bird: ", data.item)
         errorArrayItem.birds.push(data.item);
       } else {
         console.log("Still need to add: ", data.item);
@@ -75,12 +73,9 @@ controllers.loadCSV=function($scope, couchConnection){
 
       } else {
        // alert("Right File Type");
-        console.log($scope.fileList);
         $scope.birdList=[];
         $scope.r=new FileReader();
-
-       $scope.r.readAsText($scope.fileList, "utf-8");
-
+        $scope.r.readAsText($scope.fileList, "utf-8");
       }
   });
 
@@ -88,7 +83,7 @@ controllers.loadCSV=function($scope, couchConnection){
    if ($scope.r!==undefined){
      $scope.r.onloadend=function(e){
        console.log("Load end");
-       $scope.lineArray=$scope.r.result.split("\n");
+       $scope.lineArray=$scope.r.result.split("\r\n");
        if ($scope.validateCsv($scope.lineArray[0])){
          $scope.parse();
        }
@@ -123,20 +118,19 @@ controllers.loadCSV=function($scope, couchConnection){
  $scope.parse=function(){
 
    $scope.uploaded={"success":0, "warning":0, "error":0};
-   $scope.currentRecord=1;
-   //$scope.numberOfSpecies=$scope.lineArray.length;
-   $scope.numberOfSpecies=300;
+   $scope.currentRecord=2292;
+   $scope.numberOfSpecies=2;
    var currentSpecies_englishName;
-   //while (i<$scope.lineArray.length){
-   while ($scope.currentRecord<300){
+   while ($scope.currentRecord<2295){
      var data=[];
      line=$scope.lineArray[$scope.currentRecord];
+     console.log("current Record = ", line);
      while (line.length>0){
         var fieldValue=$scope.split(line)
         data.push(fieldValue[0]);
         line=line.slice(fieldValue[1]);
-        //console.log(data);
-        //console.log("line=", line , "line length=", line.length)
+        console.log("parsed data = ", data);
+        console.log("line=", line , "line length=", line.length)
       } // end while
 
      switch (data[3]){
@@ -164,7 +158,8 @@ controllers.loadCSV=function($scope, couchConnection){
          console.log("field 4: ", data[4]);
          $scope.uploaded.error++;
          $scope.percentError=$scope.uploaded.error*100/$scope.numberOfSpecies;
-         $scope.log.errors.push(data);
+         $scope.errorLog.add({"error":"No category match", "item":data});
+         break;
      }//end switch
      $scope.currentRecord++;
    }//end while
