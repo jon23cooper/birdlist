@@ -20,7 +20,7 @@ myBirdList.factory('couchConnection', ['$http', function($http){
     },
 
     forceUpload: function(birdRecord){
-      //need to overwrite exisitng attributes with new properties
+      //need to overwrite existing attributes with new properties
       $http.get("http://localhost:5984/birdist/" + birdRecord.latin_name)
       .then(function(data, status, headers, config){
         for (var propertyName in birdRecord){
@@ -32,7 +32,6 @@ myBirdList.factory('couchConnection', ['$http', function($http){
         return (status, data);
       });
 
-    };
-  }
+    }
 
-}]);
+  }}]);

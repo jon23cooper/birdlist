@@ -30,16 +30,42 @@
 
         <div class="panel panel-{{warningLog.class}}">
           <div class="panel-heading">
-              <a href="" ng-click="close(warningLog.class)"> <h3 class="panel-title">{{warningLog.title}}s <span class="badge">{{warningLog.count()}}</span></h3></a>
+              <a href="" ng-click="close(warningLog.class)">
+                  <h3 class="panel-title">{{warningLog.title}}s <span class="badge">{{warningLog.count()}}</span></h3></a>
           </div>
-            <div class="well" ng-show="panels.{{warningLog.class}}_undefined">
-                <div class="panel panel-{{warningLog.class}}" ng-repeat="errorType in warningLog.errorTypes">
-                    <div class="panel-heading" >
-                        <a href="" ng-click="close(warningLog.class, errorType)"><h4 class="panel-title">{{errorType}}s <span class="badge">{{warningLog.count(errorType)}}</span></h4></a>
+          <div class="well" ng-show="panels.{{warningLog.class}}_undefined">
+              <div class="panel panel-{{warningLog.class}}" ng-repeat="errorType in warningLog.errorTypes">
+                  <div class="panel-heading" >
+                      <a href="" ng-click="close(warningLog.class, errorType)">
+                          <h4 class="panel-title">{{errorType}}s
+                              <span class="badge">{{warningLog.count(errorType)}}</span></h4></a>
+                  </div>
+                  <div class="well" ng-repeat="item in filtered=(warningLog.errorArray | filter:{type:errorType}) " ng-show="panels.{{warningLog.class}}_{{errorType}}">
+                      <div class="alert alert-{{warningLog.class}}"  ng-repeat="bird in item.birds" ng-show=true>
+                          {{bird.latin_name}} - {{bird.english_name}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="panel panel-{{errorLog.class}}">
+            <div class="panel-heading">
+                <a href="" ng-click="close(errorLog.class)">
+                    <h4 class="panel-title">{{errorLog.title}}s <span class="badge">{{errorLog.count()}}</span></h4>
+                </a>
+            </div>
+            <div class="well">
+                <div class="panel panel-{{errorLog.class}}" ng-repeat="errorType in errorLog.errorTypes">
+                    <div class="panel-heading">
+                        <a href="" ng-click="close(errorLog.class, errorType)">
+                            <h4 class="panel-title">{{errorType}}s
+                                <span class="badge">{{errorLog.count(errorType)}}</span>
+                            </h4>
+                        </a>
                     </div>
-                    <div class="well" ng-repeat="item in filtered=(warningLog.errorArray | filter:{type:errorType}) " ng-show="panels.{{warningLog.class}}_{{errorType}}">
-                        <div class="alert alert-warning"  ng-repeat="bird in item.birds" ng-show=true>
-                            {{bird.latin_name}} - {{bird.english_name}}
+                    <div class="well" ng-repeat="item in filtered=(errorLog.errorArray | filter:{type:errorType})" ng-show="panels.{{errorLog.class}}_{{errorType}}">
+                        <div class="alert alert-{{errorLog.class}}" ng-repeat="bird in item.birds">
+                            {{bird}}
                         </div>
                     </div>
                 </div>
