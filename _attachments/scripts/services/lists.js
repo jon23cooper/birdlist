@@ -20,7 +20,11 @@ myBirdList.factory('couchConnection', ['$http', function($http){
     },
 
     compact: function(){
-      $http.post("http://localhost:5984/birdlist/_compact");
+      return $http.post("http://localhost:5984/birdlist/_compact","",{"headers":{"Content-Type": "application/json"}}).
+      then(function(code){
+        return code;
+      });
+
     },
 
     forceUpload: function(birdRecord){

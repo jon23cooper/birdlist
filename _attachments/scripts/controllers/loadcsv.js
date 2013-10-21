@@ -119,10 +119,10 @@ controllers.loadCSV=function($scope, couchConnection){
  $scope.parse=function(){
 
    $scope.uploaded={"success":0, "warning":0, "error":0};
-   $scope.currentRecord=6040;
+   $scope.currentRecord=6060;
    $scope.numberOfSpecies=9;
    var currentSpecies_englishName;
-   while ($scope.currentRecord<6050){
+   while ($scope.currentRecord<6070){
      var data=[];
      line=$scope.lineArray[$scope.currentRecord];
     // console.log("current Record = ", line);
@@ -165,7 +165,9 @@ controllers.loadCSV=function($scope, couchConnection){
      $scope.currentRecord++;
    }//end while
    console.log("Job Done");
-   couchConnection.compact();
+   couchConnection.compact().then (function(code){
+     console.log("Compaction code=", code)},
+        function(code){console.log("Compaction error code=", code)});
    $scope.$apply();
  };
 
