@@ -19,6 +19,10 @@ myBirdList.factory('couchConnection', ['$http', function($http){
 
     },
 
+    compact: function(){
+      $http.post("http://localhost:5984/birdlist/_compact");
+    },
+
     forceUpload: function(birdRecord){
       //need to overwrite existing attributes with new properties
       $http.get("http://localhost:5984/birdist/" + birdRecord.latin_name)

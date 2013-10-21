@@ -165,6 +165,7 @@ controllers.loadCSV=function($scope, couchConnection){
      $scope.currentRecord++;
    }//end while
    console.log("Job Done");
+   couchConnection.compact();
    $scope.$apply();
  };
 
