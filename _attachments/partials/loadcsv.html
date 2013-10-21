@@ -27,7 +27,27 @@
             <span class="sr-only">{{percentError}}% Complete (danger)</span>
           </div>
         </div>
-
+        <div class="panel panel-{{successLog.class}}">
+            <div class="panel-heading">
+                <a href="" ng-click="close(successLog.class)">
+                   <h3 class="panel-title">{{successLog.title}}es <span class="badge">{{uploaded.success}}</span></h3>
+                </a>
+            </div>
+            <div class="well" ng-show="panels.{{successLog.class}}_undefined">
+                <div class="panel panel-{{successLog.class}}" ng-repeat="errorType in successLog.errorTypes">
+                  <div class="panel-heading" >
+                      <a href="" ng-click="close(successLog.class, errorType)">
+                          <h4 class="panel-title">{{errorType}}
+                              <span class="badge">{{successLog.count(errorType)}}</span></h4></a>
+                  </div>
+                    <div class="well" ng-repeat="item in successLog.errorArray " ng-show="panels.{{successLog.class}}_{{errorType}}">
+                      <div class="alert alert-{{successLog.class}}" ng-repeat="bird in item.birds" >
+                          {{bird}}
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
         <div class="panel panel-{{warningLog.class}}">
           <div class="panel-heading">
               <a href="" ng-click="close(warningLog.class)">

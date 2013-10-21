@@ -8,7 +8,7 @@ myBirdList.factory('couchConnection', ['$http', function($http){
        return $http.put("http://localhost:5984/birdlist/" + birdRecord.latin_name, birdRecord)
       .success(function(data, status, headers, config){
         //saved successfully
-        console.log(data, " saved");
+        return {"data":data, "status":status, "config":config};
       })
       .error(function(data, status, headers, config){
 

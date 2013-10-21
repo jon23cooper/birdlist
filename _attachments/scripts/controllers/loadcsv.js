@@ -66,6 +66,7 @@ controllers.loadCSV=function($scope, couchConnection){
   $scope.panels={};
   $scope.warningLog=new log("Warning", "warning");
   $scope.errorLog= new log("Error", "danger");
+  $scope.successLog = new log("Success", "success")
 
   $scope.$on('evtCSVFileChanged', function(){
     if ($scope.fileList.type!="text/csv"){
@@ -118,19 +119,19 @@ controllers.loadCSV=function($scope, couchConnection){
  $scope.parse=function(){
 
    $scope.uploaded={"success":0, "warning":0, "error":0};
-   $scope.currentRecord=2292;
-   $scope.numberOfSpecies=2;
+   $scope.currentRecord=6040;
+   $scope.numberOfSpecies=9;
    var currentSpecies_englishName;
-   while ($scope.currentRecord<2295){
+   while ($scope.currentRecord<6050){
      var data=[];
      line=$scope.lineArray[$scope.currentRecord];
-     console.log("current Record = ", line);
+    // console.log("current Record = ", line);
      while (line.length>0){
         var fieldValue=$scope.split(line)
         data.push(fieldValue[0]);
         line=line.slice(fieldValue[1]);
-        console.log("parsed data = ", data);
-        console.log("line=", line , "line length=", line.length)
+        //console.log("parsed data = ", data);
+       // console.log("line=", line , "line length=", line.length)
       } // end while
 
      switch (data[3]){
@@ -169,9 +170,12 @@ controllers.loadCSV=function($scope, couchConnection){
 
  $scope.save=function(bird){
    couchConnection.newBirdRecord(bird)
-   .then (function(){
+   .then (function(data){
+     console.log("success returns: ", data);
      $scope.uploaded.success++;
      $scope.percentSuccess=$scope.uploaded.success*100/$scope.numberOfSpecies;
+
+     $scope.successLog.add({"error":"Successful", "item":data.data.id});
    }
    , function(warning){
      $scope.uploaded.warning++;
