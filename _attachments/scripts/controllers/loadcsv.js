@@ -1,6 +1,6 @@
 
 
-controllers.loadCSV=function($scope, couchConnection){
+controllers.loadCSV=function($scope, $timeout, couchConnection){
 
   //log is an object with structure:
   // {title:String, class: String, errorTypes:ArrayOfString, errorArray:ArrayOfErrorObjects}
@@ -119,10 +119,10 @@ controllers.loadCSV=function($scope, couchConnection){
  $scope.parse=function(){
 
    $scope.uploaded={"success":0, "warning":0, "error":0};
-   $scope.currentRecord=6060;
-   $scope.numberOfSpecies=9;
+   $scope.currentRecord=1;
+   $scope.numberOfSpecies=$scope.lineArray.length-1;
    var currentSpecies_englishName;
-   while ($scope.currentRecord<6070){
+   while ($scope.currentRecord<$scope.lineArray.length){
      var data=[];
      line=$scope.lineArray[$scope.currentRecord];
     // console.log("current Record = ", line);
@@ -134,41 +134,44 @@ controllers.loadCSV=function($scope, couchConnection){
        // console.log("line=", line , "line length=", line.length)
       } // end while
 
-     switch (data[3]){
-        case "species":
-          currentSpecies_englishName=data[5];
-          $scope.save({"type":"bird","category":data[3], "latin_name":data[4], "english_name":data[5], "range":data[6], "order":data[7], "family":data[8], "extinct":data[9] });
-          break;
-        case "group (polytypic)":
-         //just need english name for group
-          currentSpecies_englishName=data[5];
-         $scope.numberOfSpecies--;
-          break;
-        case "group (monotypic)":
-          $scope.save({"type":"bird","category":"subspecies", "latin_name":data[4], "english_name":data[5], "range":data[6], "order":data[7], "family":data[8], "extinct":data[9]});
-          break;
-        case "subspecies":
-          $scope.save({"type":"bird", "category":"subspecies", "latin_name": data[4], "english_name":currentSpecies_englishName, "range":data[6], "order":data[7], "family":data[8], "extinct":data[9]});
-          break;
-       default:
-         console.log("No category match Error:");
-         console.log("field 0: ", data[0]);
-         console.log("field 1: ",data[1]);
-         console.log("field 2: ", data[2]);
-         console.log("No match for ", data[3]);
-         console.log("field 4: ", data[4]);
-         $scope.uploaded.error++;
-         $scope.percentError=$scope.uploaded.error*100/$scope.numberOfSpecies;
-         $scope.errorLog.add({"error":"No category match", "item":data});
-         break;
-     }//end switch
+         switch (data[3]){
+            case "species":
+              currentSpecies_englishName=data[5];
+              $scope.save({"type":"bird","category":data[3], "latin_name":data[4], "english_name":data[5], "range":data[6], "order":data[7], "family":data[8], "extinct":data[9] });
+              break;
+            case "group (polytypic)":
+             //just need english name for group
+              currentSpecies_englishName=data[5];
+             $scope.numberOfSpecies--;
+              break;
+            case "group (monotypic)":
+              $scope.save({"type":"bird","category":"subspecies", "latin_name":data[4], "english_name":data[5], "range":data[6], "order":data[7], "family":data[8], "extinct":data[9]});
+              break;
+            case "subspecies":
+              $scope.save({"type":"bird", "category":"subspecies", "latin_name": data[4], "english_name":currentSpecies_englishName, "range":data[6], "order":data[7], "family":data[8], "extinct":data[9]});
+              break;
+           default:
+             console.log("No category match Error:");
+             console.log("field 0: ", data[0]);
+             console.log("field 1: ",data[1]);
+             console.log("field 2: ", data[2]);
+             console.log("No match for ", data[3]);
+             console.log("field 4: ", data[4]);
+             $scope.uploaded.error++;
+             $scope.percentError=$scope.uploaded.error*100/$scope.numberOfSpecies;
+             $scope.errorLog.add({"error":"No category match", "item":data});
+             break;
+         }//end switch
+
      $scope.currentRecord++;
+
    }//end while
    console.log("Job Done");
+   /**
    couchConnection.compact().then (function(code){
      console.log("Compaction code=", code)},
         function(code){console.log("Compaction error code=", code)});
-   $scope.$apply();
+   **/
  };
 
  $scope.save=function(bird){
