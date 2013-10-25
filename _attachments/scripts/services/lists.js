@@ -1,7 +1,13 @@
 myBirdList.factory('couchConnection', ['$http', '$timeout', function($http, $timeout){
   return {
     getBirdList: function() {
-      return [{'latin_name':'aves unspecificus unos', 'common_name':'first bird','date':'09-30-2013'}, {'latin_name':'aves unspecificus duos','common_name':'second_bird', 'date':'09-28-2012'}];
+      return $http.get("http://localhost:5984/birdlist/_design/birdlist/_view/all_birds")
+      .success(function(response){
+        return response.data;
+      })
+      .error(function(reason){
+        return reason;
+      })
     },
 
     newBirdRecord: function(birdRecord){
