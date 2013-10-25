@@ -37,10 +37,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="species in birdlist | filter:year">
-                <td>{{species.latin_name}}</td>
-                <td>{{species.common_name}}</td>
-                <td>{{species.date}}</td>
+            <tr ng-repeat="species in birdlist.rows | filter:year">
+                <td>{{species.id}}</td>
+                <td>{{species.key}}</td>
+
             </tr>
         </tbody>
     </table>
