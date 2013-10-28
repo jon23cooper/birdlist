@@ -1,4 +1,4 @@
-var myBirdList=angular.module("birdlist",['ngRoute', 'ui.bootstrap']);
+var myBirdList=angular.module("birdlist",['ngRoute', 'ui.bootstrap', 'infinite-scroll']);
 
 var controllers={};
 
@@ -19,7 +19,7 @@ myBirdList.config(function($routeProvider){
       templateUrl:'partials/main.html'
     })
     .when("/lists",{
-      controller:controllers.admin,
+      controller:controllers.lists,
       templateUrl:'partials/lists.html'
     })
     .when("/create",{

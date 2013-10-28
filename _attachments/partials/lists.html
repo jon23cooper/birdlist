@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="jumbotron col-lg-6 col-lg-offset-4 text-center">
+    <div class="jumbotron col-lg-6 col-lg-offset-4 text-center navbar-fixed-top">
         <h1>Master List</h1>
     </div>
 </div>
@@ -8,23 +8,25 @@
     <div class="col-lg-2">
         <ul class="nav nav-pills nav-stacked">
             <li class="nav-header"><h1>Menu</h1></li>
-            <li class="active"><a href="#/lists">Lists</a></li>
-            <li class="active"><a href="#/create">Create World List</a></li>
-            <li class="active"><a href="">Menu Option 2</a></li>
+            <li class="active" jc-menu-hide><a href="#/lists">Lists</a></li>
+            <li class="active" jc-menu-hide><a href="#/create">Create World List</a></li>
+            <li class="active"jc-menu-hide><a href="">Menu Option 2</a></li>
         </ul>
     </div>
     <div class="col-lg-8 col-lg-offset-1">
         <table class="table">
             <thead>
                 <trow>
-                    <th>Order</th>
-                    <th>Family</th>
-                    <th>Genus</th>
-                    <th>Species</th>
-                    <th>Subspecies</th>
+                    <th>Latin name</th>
+                    <th>English Name</th>
                 </trow>
             </thead>
-            <tbody>
+            <tbody infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+
+                <tr ng-repeat="species in birdlist.rows | limitTo: limit">
+                    <td>{{species.key}}</td>
+                    <td>{{species.value}}</td>
+                </tr>
             </tbody>
         </table>
     </div>

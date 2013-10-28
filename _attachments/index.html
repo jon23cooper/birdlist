@@ -15,11 +15,13 @@
         <script data-require="angular.js@1.2.0-rc2" data-semver="1.2.0-rc2" src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
         <script data-require="ui-bootstrap@*" data-semver="0.6.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
         <script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
+        <script type='text/javascript' src='scripts/ng-infinite-scroll.min.js'></script>
           <!-- INTERNAL SCRIPTS -->
       <script src="scripts/app.js" ></script>
     <!-- Load Directives -->
       <script src="scripts/directives/tabs.js"></script>
       <script src="scripts/directives/files.js"></script>
+      <script src="scripts/directives/menus.js"></script>
     <!-- Load Services -->
       <script src="scripts/services/lists.js"></script>
     <!-- Load Controllers -->
@@ -30,7 +32,8 @@
 
   </head>
   <body ng-controller="birdlistCtrl">
-      <div ng-include src="'partials/issueTrack.html'">
-      <ng-view></ng-view></div>
+      <div ng-include src="partials/issueTrack.html">
+          <ng-view></ng-view>
+      </div>
   </body>
 </html>
