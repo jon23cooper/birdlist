@@ -1,4 +1,4 @@
-var myBirdList=angular.module("birdlist",['ngRoute', 'ui.bootstrap']);
+var myBirdList=angular.module("birdlist",['ngRoute', 'ui.bootstrap', 'infinite-scroll']);
 
 var controllers={};
 
@@ -18,9 +18,15 @@ myBirdList.config(function($routeProvider){
       controller:controllers.main,
       templateUrl:'partials/main.html'
     })
+<<<<<<< HEAD
     .when("/mainlist",{
       controller:controllers.mainlist,
       templateUrl:'partials/mainlist.html'
+=======
+    .when("/lists",{
+      controller:controllers.lists,
+      templateUrl:'partials/lists.html'
+>>>>>>> b1
     })
     .when("/create",{
       controller:controllers.loadCSV,
