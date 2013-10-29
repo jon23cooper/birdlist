@@ -18,9 +18,9 @@ myBirdList.config(function($routeProvider){
       controller:controllers.main,
       templateUrl:'partials/main.html'
     })
-    .when("/admin",{
-      controller:controllers.admin,
-      templateUrl:'partials/admin.html'
+    .when("/mainlist",{
+      controller:controllers.mainlist,
+      templateUrl:'partials/mainlist.html'
     })
     .when("/create",{
       controller:controllers.loadCSV,

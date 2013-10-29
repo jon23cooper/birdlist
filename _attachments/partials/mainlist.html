@@ -16,14 +16,14 @@
         <table class="table">
             <thead>
                 <trow>
-                    <th>Order</th>
-                    <th>Family</th>
-                    <th>Genus</th>
-                    <th>Species</th>
-                    <th>Subspecies</th>
+                    <th>Latin Name</th>
+                    <th>English Name</th>
                 </trow>
             </thead>
             <tbody>
+				<tr ng-repeat="bird in birdlist.rows">
+					<td>{{bird.key}}</td><td>{{bird.value}}
+				</tr>
             </tbody>
         </table>
     </div>

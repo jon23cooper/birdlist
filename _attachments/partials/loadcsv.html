@@ -4,14 +4,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-2">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="nav-header"><h1>Menu</h1></li>
-            <li class="active"><a href="#/create">Create World List</a></li>
-            <li class="active"><a href="">Menu Option 2</a></li>
-        </ul>
-    </div>
-    <div class="col-lg-8 col-lg-offset-1 ">
+	<div  ng-include src="'partials/sidebar.html'"></div>
+    <div class="col-lg-8">
         <p>In order to initially populate your database with a list of the World's birds you can import a Clement's checklist in csv format. This file can be obtained from <a href="http://www.birds.cornell.edu/clementschecklist/download/" target="_blank">The Cornell Lab of Ornithology</a> Download and save the csv file to your computer and then browse for the file using the "choose file" button below</p>
 
         <p><input type="file" id="fileinput" jc-file-picker/></p>

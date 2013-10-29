@@ -25,12 +25,12 @@
     <!-- Load Controllers -->
       <script src="scripts/controllers/logon.js"></script>
       <script src="scripts/controllers/main.js"></script>
-      <script src="scripts/controllers/admin.js"></script>
+      <script src="scripts/controllers/mainlist.js"></script>
       <script src="scripts/controllers/loadcsv.js"></script>
 
   </head>
   <body ng-controller="birdlistCtrl">
-      <div ng-include src="'partials/issueTrack.html'">
+	  <div ng-include src="'partials/issueTrack.html'"></div>
       <ng-view></ng-view></div>
   </body>
 </html>
